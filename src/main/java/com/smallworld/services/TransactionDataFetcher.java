@@ -1,4 +1,7 @@
-package com.smallworld;
+package com.smallworld.services;
+
+import com.smallworld.Entity.TransactionEntity;
+import com.smallworld.Repository.Interfaces.ITransactionRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -6,14 +9,18 @@ import java.util.Optional;
 import java.util.Set;
 
 public class TransactionDataFetcher {
+    ITransactionRepository transactionRepository;
+    public TransactionDataFetcher(ITransactionRepository  _transactionRepository){
+        this.transactionRepository = _transactionRepository;
+    }
+
 
     /**
      * Returns the sum of the amounts of all transactions
      */
-    public double getTotalTransactionAmount() {
-        throw new UnsupportedOperationException();
+    public List<TransactionEntity> getTotalTransactionAmount() {
+        return this.transactionRepository.getTotalTransactionAmount();
     }
-
     /**
      * Returns the sum of the amounts of all transactions sent by the specified client
      */
