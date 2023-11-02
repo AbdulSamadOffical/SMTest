@@ -30,11 +30,12 @@ public class TransactionEntity {
     @JsonProperty("issueSolved")
     private boolean issueSolved;
 
+    public String getSenderFullName() {
+        return senderFullName;
+    }
+
     @JsonProperty("issueMessage")
     private String issueMessage;
-
-    // Constructors, getters, and setters
-    // ...
 
     public long getMtn() {
         return mtn;
@@ -46,6 +47,10 @@ public class TransactionEntity {
     public static <T, K> Predicate<T> distinctBy(Function<? super T, K> keyExtractor) {
         Set<K> seen = new HashSet<>();
         return t -> seen.add(keyExtractor.apply(t));
+    }
+
+    public boolean isIssueSolved() {
+        return issueSolved;
     }
 
     @Override
@@ -63,4 +68,11 @@ public class TransactionEntity {
                 '}';
     }
 
+    public int getIssueId() {
+        return issueId;
+    }
+
+    public String getBeneficiaryFullName() {
+        return beneficiaryFullName;
+    }
 }

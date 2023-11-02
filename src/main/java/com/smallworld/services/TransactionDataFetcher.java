@@ -15,31 +15,53 @@ public class TransactionDataFetcher {
     }
 
 
+    private double getTotalAmount(List<TransactionEntity> transactions){
+        double totalAmount = 0;
+        for (TransactionEntity transaction:
+             transactions) {
+            totalAmount = totalAmount + transaction.getAmount();
+        }
+        return totalAmount;
+    }
+
     /**
      * Returns the sum of the amounts of all transactions
      */
-    public List<TransactionEntity> getTotalTransactionAmount() {
-        return this.transactionRepository.getTotalTransactionAmount();
+    public double getTotalTransactionAmount() {
+        return this.getTotalAmount(this.transactionRepository.getTotalUniqueTransactions());
     }
     /**
      * Returns the sum of the amounts of all transactions sent by the specified client
      */
-    public double getTotalTransactionAmountSentBy(String senderFullName) {
-        throw new UnsupportedOperationException();
+    public double getTotalTransactionAmountSentBy(String senderFullName){
+       return this.getTotalAmount(this.transactionRepository.getTotalTransactionAmountSentBy(senderFullName));
+    }
+
+    private double getMaximumAmount(List<TransactionEntity>totalUniqueTransactions){
+        double maximumAmount = 0;
+        for (TransactionEntity transaction:
+                totalUniqueTransactions) {
+            if(transaction.getAmount() > maximumAmount){
+                maximumAmount = transaction.getAmount();
+            }
+        }
+        return maximumAmount;
     }
 
     /**
      * Returns the highest transaction amount
      */
     public double getMaxTransactionAmount() {
-        throw new UnsupportedOperationException();
+
+        List<TransactionEntity> totalUniqueTransactions = this.transactionRepository.getTotalUniqueTransactions();
+        return this.getMaximumAmount(totalUniqueTransactions);
     }
 
     /**
      * Counts the number of unique clients that sent or received a transaction
      */
     public long countUniqueClients() {
-        throw new UnsupportedOperationException();
+        return transactionRepository.getUniqueSenderAndBeneficiaryClients().size();
     }
 
     /**
