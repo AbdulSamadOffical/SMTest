@@ -1,12 +1,9 @@
 package com.smallworld.services;
-
 import com.smallworld.Entity.TransactionEntity;
 import com.smallworld.Repository.Interfaces.ITransactionRepository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TransactionDataFetcher {
     ITransactionRepository transactionRepository;
@@ -69,42 +66,68 @@ public class TransactionDataFetcher {
      * issue that has not been solved
      */
     public boolean hasOpenComplianceIssues(String clientFullName) {
-        throw new UnsupportedOperationException();
+        return transactionRepository.hasOpenComplianceIssues(clientFullName);
     }
 
     /**
      * Returns all transactions indexed by beneficiary name
      */
-    public Map<String, Object> getTransactionsByBeneficiaryName() {
-        throw new UnsupportedOperationException();
+    public Map<String, List<TransactionEntity>> getTransactionsByBeneficiaryName() {
+        return transactionRepository.getTransactionsByBeneficiaryName();
     }
 
     /**
      * Returns the identifiers of all open compliance issues
      */
     public Set<Integer> getUnsolvedIssueIds() {
-        throw new UnsupportedOperationException();
+        return this.transactionRepository.getUnsolvedIssueIds();
     }
 
     /**
      * Returns a list of all solved issue messages
      */
     public List<String> getAllSolvedIssueMessages() {
-        throw new UnsupportedOperationException();
+        return this.transactionRepository.getAllSolvedIssueMessages();
     }
 
     /**
      * Returns the 3 transactions with highest amount sorted by amount descending
      */
-    public List<Object> getTop3TransactionsByAmount() {
-        throw new UnsupportedOperationException();
+        public List<TransactionEntity> getTop3TransactionsByAmount() {
+        return this.transactionRepository.getTop3TransactionsByAmount();
     }
 
     /**
      * Returns the sender with the most total sent amount
      */
-    public Optional<Object> getTopSender() {
-        throw new UnsupportedOperationException();
-    }
+    public Map<String, Double> getTopSender() {
 
+        Map<String, Double> dict = new HashMap<>();
+        dict.put("senderSum", 0.0);
+        dict.put("maxSenderSum", 0.0);
+
+        Map<String, Double> topSender = new HashMap<>();
+
+        Map<String, List<TransactionEntity>> indexBySenderName= this.transactionRepository.getTransactionBySenderFullName();
+
+        indexBySenderName.forEach((senderName, group) -> {
+            System.out.println(senderName + "Sender Name" + " " + group + "list");
+            group.forEach((list) -> {
+
+                double sum = dict.get("senderSum");
+                sum = sum + list.getAmount();
+                dict.put("senderSum",sum);
+
+            });
+            double sum = dict.get("senderSum");
+            if(sum > dict.get("maxSenderSum")){
+
+                dict.put("maxSenderSum",sum);
+                topSender.clear();
+                topSender.put(senderName,sum);
+            }
+            dict.put("senderSum",0.0);
+        });
+        return topSender;
+    }
 }

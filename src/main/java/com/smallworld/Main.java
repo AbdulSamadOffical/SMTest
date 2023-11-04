@@ -7,6 +7,7 @@ import com.smallworld.Repository.TransactionRepository;
 import com.smallworld.services.TransactionDataFetcher;
 
 import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -14,12 +15,15 @@ public class Main {
         String jsonPath = "D:\\coding_test(1)\\coding_test\\transactions.json";
         JsonToEntityMapper mapper = new JsonToEntityMapper();
         List<TransactionEntity> transactions = mapper.deserializeFromJson(jsonPath, TransactionEntity.class);
-
-
         JsonBaseRepository jsonBaseRepository = new JsonBaseRepository(transactions);
         TransactionRepository transactionRepository = new TransactionRepository(jsonBaseRepository, transactions);
         TransactionDataFetcher transactionDataFetcher = new TransactionDataFetcher(transactionRepository);
 
-        System.out.println(transactionDataFetcher.countUniqueClients());
+//        Map<String, List<TransactionEntity>> map = transactionDataFetcher.getTransactionsByBeneficiaryName();
+//        map.forEach((beneficary, group) -> {
+//            System.out.println("Beneficiary FullName " + beneficary + ":");
+//            group.forEach(System.out::println);
+//        });
+        System.out.println(transactionDataFetcher.getTopSender() + "final ds");
     }
 }

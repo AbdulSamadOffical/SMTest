@@ -1,6 +1,5 @@
 package com.smallworld.Entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
@@ -51,6 +50,14 @@ public class TransactionEntity {
 
     public boolean isIssueSolved() {
         return issueSolved;
+    }
+
+    public String getIssueMessage() {
+        return issueMessage;
+    }
+
+    public void setIssueSolved(boolean issueSolved) {
+        this.issueSolved = issueSolved;
     }
 
     @Override

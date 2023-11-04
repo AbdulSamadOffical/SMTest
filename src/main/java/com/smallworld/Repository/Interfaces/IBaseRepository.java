@@ -4,4 +4,5 @@ public interface IBaseRepository<T> {
 
     List<T> getAll();
 
+
 }
