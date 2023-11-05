@@ -14,6 +14,31 @@ public class TransactionDataFetcherTest {
         this.delta =   0.0001;
     }
 
+
+    /**
+     * getTotalAmount must throw an exception, If null is passed as an argument
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void getTotalAmountNullCheck() {
+        double amount = this.transactionDataFetcher.getTotalAmount(null);
+
+    }
+
+
+    /**
+     * getTotalAmount must throw an exception, If null is passed as an argument
+     */
+    @Test(expected = RuntimeException.class)
+    public void getTotalAmountInConsistentAmountData() {
+        List<TransactionEntity> list = new ArrayList<>(
+                Arrays.asList(
+                        new TransactionEntity(663458, -430.2, "Tom Shelby", 22, "Alfie Solomons", 33, 1, false, "Looks like money laundering"),
+                        new TransactionEntity(1284564, 150.2, "Tom Shelby", 22, "Arthur Shelby", 60, 2, true, "Never gonna give you up")
+                ));
+       this.transactionDataFetcher.getTotalAmount(list);
+
+    }
+
     /**
      * Mocked Repository Method, Check does the function Returns the sum of the amounts of all transactions
      */
@@ -31,6 +56,39 @@ public class TransactionDataFetcherTest {
 
         double amount = this.transactionDataFetcher.getTotalTransactionAmountSentBy("Tom Shelby");
         assertEquals(amount, 880.4, this.delta);
+    }
+
+    /**
+     * getTotalTransactionAmountSentBy must throw Error if the sender fullName is empty
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void getTotalTransactionAmountSentByPassedEmptyString(){
+
+        this.transactionDataFetcher.getTotalTransactionAmountSentBy("");
+
+    }
+    /**
+     * getTotalAmount must throw an exception, If null is passed as an argument
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void getMaximumAmountNullCheck() {
+        this.transactionDataFetcher.getTotalAmount(null);
+
+    }
+
+
+    /**
+     * getTotalAmount must throw an exception, If null is passed as an argument
+     */
+    @Test(expected = RuntimeException.class)
+    public void getMaximumAmountInConsistentAmountData() {
+        List<TransactionEntity> list = new ArrayList<>(
+                Arrays.asList(
+                        new TransactionEntity(663458, -430.2, "Tom Shelby", 22, "Alfie Solomons", 33, 1, false, "Looks like money laundering"),
+                        new TransactionEntity(1284564, 150.2, "Tom Shelby", 22, "Arthur Shelby", 60, 2, true, "Never gonna give you up")
+                ));
+        this.transactionDataFetcher.getTotalAmount(list);
+
     }
 
     /**
@@ -59,6 +117,11 @@ public class TransactionDataFetcherTest {
         boolean hasOpenComplianceIssues = this.transactionDataFetcher.hasOpenComplianceIssues("Tom Shelby");
         assertEquals(hasOpenComplianceIssues, true);
     }
+    @Test(expected = IllegalArgumentException.class)
+    public void hasOpenComplianceIssuesPassedEmptyString(){
+        this.transactionDataFetcher.hasOpenComplianceIssues("");
+    }
+
     @Test
     public void getTransactionsByBeneficiaryName(){
         Map<String, List<TransactionEntity>> hasOpenComplianceIssues = this.transactionDataFetcher.getTransactionsByBeneficiaryName();
@@ -101,5 +164,7 @@ public class TransactionDataFetcherTest {
         assertTrue(KeyToCheck, topSender.containsKey(KeyToCheck));
         assertEquals(value, 20580.4, this.delta);
     }
+
+
 
 }

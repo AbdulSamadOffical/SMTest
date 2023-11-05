@@ -12,10 +12,17 @@ public class TransactionDataFetcher {
     }
 
 
-    private double getTotalAmount(List<TransactionEntity> transactions){
+    public double getTotalAmount(List<TransactionEntity> transactions){
+        if(transactions == null){
+            throw new IllegalArgumentException("List cannot be null");
+        }
+
         double totalAmount = 0;
         for (TransactionEntity transaction:
              transactions) {
+            if (transaction.getAmount() <= 0) {
+                throw new RuntimeException("Amount must be greater than zero for transaction: " + transaction.getMtn());
+            }
             totalAmount = totalAmount + transaction.getAmount();
         }
         return totalAmount;
@@ -31,13 +38,24 @@ public class TransactionDataFetcher {
      * Returns the sum of the amounts of all transactions sent by the specified client
      */
     public double getTotalTransactionAmountSentBy(String senderFullName){
+        if(senderFullName.isEmpty()){
+            throw new IllegalArgumentException("Sender FullName cannot be Empty");
+        }
        return this.getTotalAmount(this.transactionRepository.getTotalTransactionAmountSentBy(senderFullName));
     }
 
+    /* Hiding unnecessary details from the clients */
     private double getMaximumAmount(List<TransactionEntity>totalUniqueTransactions){
+        if(totalUniqueTransactions == null){
+            throw new IllegalArgumentException("List cannot be null");
+        }
         double maximumAmount = 0;
         for (TransactionEntity transaction:
                 totalUniqueTransactions) {
+            if (transaction.getAmount() <= 0) {
+                throw new RuntimeException("Amount must be greater than zero for transaction: " + transaction.getMtn());
+            }
+
             if(transaction.getAmount() > maximumAmount){
                 maximumAmount = transaction.getAmount();
             }
@@ -80,6 +98,9 @@ public class TransactionDataFetcher {
      * issue that has not been solved
      */
     public boolean hasOpenComplianceIssues(String clientFullName) {
+        if(clientFullName.isEmpty()){
+            throw new IllegalArgumentException("Client FullName cannot be Empty");
+        }
         return transactionRepository.hasOpenComplianceIssues(clientFullName);
     }
 
@@ -123,7 +144,9 @@ public class TransactionDataFetcher {
             Map<String, Double> topSender = new HashMap<>();
 
             Map<String, List<TransactionEntity>> indexBySenderName= this.transactionRepository.getTransactionBySenderFullName();
-
+            if(indexBySenderName == null){
+                throw new RuntimeException("Top sender does not exists in the system");
+            }
             indexBySenderName.forEach((senderName, group) -> {
                 group.forEach((list) -> {
 

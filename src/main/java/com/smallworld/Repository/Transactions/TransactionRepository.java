@@ -25,6 +25,7 @@ public class TransactionRepository  implements ITransactionRepository {
                 .toList();
 
     }
+
     @Override
     public List<TransactionEntity> getTotalTransactionAmountSentBy(String senderFullName) {
         List<TransactionEntity> getTotalUniqueTransactions = this.getTotalUniqueTransactions();
