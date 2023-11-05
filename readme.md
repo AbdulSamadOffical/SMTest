@@ -33,6 +33,6 @@ Have fun!
 ![Low Level Design](https://github.com/AbdulSamadOffical/SMTest/assets/96175494/77b0e060-434f-4f94-9831-8027fa157072)
 
 - Above attached the Low Level Design of the solution. Applied the Repository pattern to abstract the data accecss logic from the service layer. 
-- Design this solution with the Motivation of Substitutibility in Software. By that, I mean We can plug and play with the BaseRepository which promotes the loose coupling.
+- Design this solution with the Motivation of substitutability in Software. By that, I mean We can change the implementation of BaseRepository which promotes the loose coupling.
 - Repository Pattern also make the code more Testable. By that I mean, I have tested my Transaction service by injecting the mock repository in a test file. 
   
