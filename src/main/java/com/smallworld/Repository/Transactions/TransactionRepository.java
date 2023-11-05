@@ -1,4 +1,5 @@
-package com.smallworld.Repository;
+package com.smallworld.Repository.Transactions;
+
 
 import com.smallworld.Entity.TransactionEntity;
 import com.smallworld.Repository.Interfaces.IBaseRepository;
@@ -38,32 +39,24 @@ public class TransactionRepository  implements ITransactionRepository {
                 && uniqueTransaction.getBeneficiaryFullName().equals(transaction.getBeneficiaryFullName());
     }
 
+
     @Override
-    public List<TransactionEntity> getUniqueSenderAndBeneficiaryClients(){
-        int count = 0;
-        List<TransactionEntity> senderAndBeneficiaryClients = new ArrayList<>();
+    public int getUniqueSenderAndBeneficiaryClients(){
 
-        for (TransactionEntity uniqueTransaction:
-                this.getTotalUniqueTransactions()) {
-            for (TransactionEntity transaction:this.datasource
-                 ) {
-                if(isSenderAndBeneficiaryNameMatched(uniqueTransaction, transaction)){
-                    count++;
-                }
-            }
-            if(count == 1){
-                senderAndBeneficiaryClients.add(uniqueTransaction);
-            }
+        Set<String> uniqueClients = new HashSet<>();
 
-            count = 0;
-
+        for (TransactionEntity transaction:
+             this.getTotalUniqueTransactions()) {
+            uniqueClients.add(transaction.getSenderFullName());
+            uniqueClients.add(transaction.getBeneficiaryFullName());
         }
 
-        return senderAndBeneficiaryClients;
+        System.out.println(uniqueClients);
+        return uniqueClients.size();
     }
 
     public boolean hasOpenComplianceIssues(String clientFullName){
-        System.out.println(this.datasource);
+
 
         return this.datasource.stream()
                 .anyMatch(transaction ->
@@ -109,8 +102,8 @@ public class TransactionRepository  implements ITransactionRepository {
     public List<TransactionEntity> getTop3TransactionsByAmount(){
         return  this.getTotalUniqueTransactions().stream()
                 .sorted(Comparator.comparing(TransactionEntity::getAmount).reversed()) // Sort in descending order based on the "value" property
-                .limit(3) // Limit to the top 3 elements
-                .collect(Collectors.toList()); // Collect into a new list
+                .limit(3)
+                .collect(Collectors.toList());
     }
 
 
@@ -118,5 +111,35 @@ public class TransactionRepository  implements ITransactionRepository {
     public Map<String, List<TransactionEntity>> getTransactionBySenderFullName() {
         return this.getTotalUniqueTransactions().stream()
                 .collect(Collectors.groupingBy(TransactionEntity::getSenderFullName));
+    }
+
+    public Map<String, Double> getTopSender() {
+
+        Map<String, Double> dict = new HashMap<>();
+        dict.put("senderSum", 0.0);
+        dict.put("maxSenderSum", 0.0);
+
+        Map<String, Double> topSender = new HashMap<>();
+
+        Map<String, List<TransactionEntity>> indexBySenderName= this.getTransactionBySenderFullName();
+
+        indexBySenderName.forEach((senderName, group) -> {
+            group.forEach((list) -> {
+
+                double sum = dict.get("senderSum");
+                sum = sum + list.getAmount();
+                dict.put("senderSum",sum);
+
+            });
+            double sum = dict.get("senderSum");
+            if(sum > dict.get("maxSenderSum")){
+
+                dict.put("maxSenderSum",sum);
+                topSender.clear();
+                topSender.put(senderName,sum);
+            }
+            dict.put("senderSum",0.0);
+        });
+        return topSender;
     }
 }

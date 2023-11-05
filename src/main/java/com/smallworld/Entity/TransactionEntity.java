@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class TransactionEntity {
+
     @JsonProperty("mtn")
     private long mtn;
     @JsonProperty("amount")
@@ -29,12 +30,26 @@ public class TransactionEntity {
     @JsonProperty("issueSolved")
     private boolean issueSolved;
 
-    public String getSenderFullName() {
-        return senderFullName;
-    }
-
     @JsonProperty("issueMessage")
     private String issueMessage;
+
+    public TransactionEntity() {
+        /* This constructor used by jackson serialization*/
+    }
+    public TransactionEntity(long mtn, double amount, String senderFullName, int senderAge, String beneficiaryFullName
+    ,int beneficiaryAge, int issueId, boolean issueSolved, String issueMessage){
+        /* This constructor used for creating objects */
+        this.mtn = mtn;
+        this.amount= amount;
+        this.senderFullName = senderFullName;
+        this.senderAge = senderAge;
+        this.beneficiaryFullName = beneficiaryFullName;
+        this.beneficiaryAge = beneficiaryAge;
+        this.issueId = issueId;
+        this.issueSolved = issueSolved;
+        this.issueMessage = issueMessage;
+    }
+
 
     public long getMtn() {
         return mtn;
@@ -48,6 +63,10 @@ public class TransactionEntity {
         return t -> seen.add(keyExtractor.apply(t));
     }
 
+    public String getSenderFullName() {
+        return senderFullName;
+    }
+
     public boolean isIssueSolved() {
         return issueSolved;
     }
@@ -59,7 +78,13 @@ public class TransactionEntity {
     public void setIssueSolved(boolean issueSolved) {
         this.issueSolved = issueSolved;
     }
+    public int getIssueId() {
+        return issueId;
+    }
 
+    public String getBeneficiaryFullName() {
+        return beneficiaryFullName;
+    }
     @Override
     public String toString() {
         return "Transaction{" +
@@ -75,11 +100,4 @@ public class TransactionEntity {
                 '}';
     }
 
-    public int getIssueId() {
-        return issueId;
-    }
-
-    public String getBeneficiaryFullName() {
-        return beneficiaryFullName;
-    }
 }

@@ -3,7 +3,7 @@ import com.smallworld.Entity.TransactionEntity;
 import com.smallworld.Repository.Interfaces.ITransactionRepository;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
+
 
 public class TransactionDataFetcher {
     ITransactionRepository transactionRepository;
@@ -58,7 +58,7 @@ public class TransactionDataFetcher {
      * Counts the number of unique clients that sent or received a transaction
      */
     public long countUniqueClients() {
-        return transactionRepository.getUniqueSenderAndBeneficiaryClients().size();
+        return transactionRepository.getUniqueSenderAndBeneficiaryClients();
     }
 
     /**
@@ -93,7 +93,7 @@ public class TransactionDataFetcher {
     /**
      * Returns the 3 transactions with highest amount sorted by amount descending
      */
-        public List<TransactionEntity> getTop3TransactionsByAmount() {
+    public List<TransactionEntity> getTop3TransactionsByAmount() {
         return this.transactionRepository.getTop3TransactionsByAmount();
     }
 
@@ -102,32 +102,6 @@ public class TransactionDataFetcher {
      */
     public Map<String, Double> getTopSender() {
 
-        Map<String, Double> dict = new HashMap<>();
-        dict.put("senderSum", 0.0);
-        dict.put("maxSenderSum", 0.0);
-
-        Map<String, Double> topSender = new HashMap<>();
-
-        Map<String, List<TransactionEntity>> indexBySenderName= this.transactionRepository.getTransactionBySenderFullName();
-
-        indexBySenderName.forEach((senderName, group) -> {
-            System.out.println(senderName + "Sender Name" + " " + group + "list");
-            group.forEach((list) -> {
-
-                double sum = dict.get("senderSum");
-                sum = sum + list.getAmount();
-                dict.put("senderSum",sum);
-
-            });
-            double sum = dict.get("senderSum");
-            if(sum > dict.get("maxSenderSum")){
-
-                dict.put("maxSenderSum",sum);
-                topSender.clear();
-                topSender.put(senderName,sum);
-            }
-            dict.put("senderSum",0.0);
-        });
-        return topSender;
+      return this.transactionRepository.getTopSender();
     }
 }

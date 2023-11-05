@@ -3,9 +3,10 @@ package com.smallworld;
 import com.smallworld.Entity.TransactionEntity;
 import com.smallworld.Mapper.JsonToEntityMapper;
 import com.smallworld.Repository.JsonBaseRepository;
-import com.smallworld.Repository.TransactionRepository;
+import com.smallworld.Repository.Transactions.TransactionRepository;
 import com.smallworld.services.TransactionDataFetcher;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,8 @@ public class Main {
 //            System.out.println("Beneficiary FullName " + beneficary + ":");
 //            group.forEach(System.out::println);
 //        });
-        System.out.println(transactionDataFetcher.getTopSender() + "final ds");
+        //System.out.println(transactionRepository.getTotalTransactionAmountSentBy("Tom Shelby") + "final ds");
+//
+System.out.println(transactionRepository.getTransactionBySenderFullName());
     }
 }

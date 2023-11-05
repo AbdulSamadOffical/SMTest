@@ -9,11 +9,12 @@ import java.util.Set;
 public interface ITransactionRepository {
     List<TransactionEntity> getTotalUniqueTransactions();
     List<TransactionEntity> getTotalTransactionAmountSentBy(String senderFullName);
-    List<TransactionEntity> getUniqueSenderAndBeneficiaryClients();
+    int getUniqueSenderAndBeneficiaryClients();
     boolean hasOpenComplianceIssues(String clientFullName);
     Map<String, List<TransactionEntity>> getTransactionsByBeneficiaryName();
     Set<Integer> getUnsolvedIssueIds();
     List<String> getAllSolvedIssueMessages();
     List<TransactionEntity> getTop3TransactionsByAmount();
     Map<String, List<TransactionEntity>> getTransactionBySenderFullName();
+    Map<String, Double> getTopSender();
 }
