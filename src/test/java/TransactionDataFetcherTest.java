@@ -72,7 +72,7 @@ public class TransactionDataFetcherTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void getMaximumAmountNullCheck() {
-        this.transactionDataFetcher.getTotalAmount(null);
+        this.transactionDataFetcher.getMaximumAmount(null);
 
     }
 
@@ -87,7 +87,7 @@ public class TransactionDataFetcherTest {
                         new TransactionEntity(663458, -430.2, "Tom Shelby", 22, "Alfie Solomons", 33, 1, false, "Looks like money laundering"),
                         new TransactionEntity(1284564, 150.2, "Tom Shelby", 22, "Arthur Shelby", 60, 2, true, "Never gonna give you up")
                 ));
-        this.transactionDataFetcher.getTotalAmount(list);
+        this.transactionDataFetcher.getMaximumAmount(list);
 
     }
 

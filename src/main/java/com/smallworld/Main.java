@@ -28,9 +28,6 @@ public class Main {
         System.out.println("Highest transaction amount");
         System.out.println(transactionDataFetcher.getMaxTransactionAmount());
         System.out.println("-------------------------------------------------------------------------");
-        System.out.println("Highest transaction amount");
-        System.out.println(transactionDataFetcher.getMaxTransactionAmount());
-        System.out.println("-------------------------------------------------------------------------");
         System.out.println("Counts the number of unique clients that sent or received a transaction");
         System.out.println(transactionDataFetcher.countUniqueClients());
         System.out.println("-------------------------------------------------------------------------");
@@ -43,7 +40,7 @@ public class Main {
         System.out.println("Identifiers of all open compliance issues i.e. Issue Id's");
         System.out.println(transactionDataFetcher.getUnsolvedIssueIds());
         System.out.println("-------------------------------------------------------------------------");
-        System.out.println("List of all solved issue messages, With Null messages can be filtered");
+        System.out.println("List of all solved issue messages, Null messages can be filtered if any.");
         System.out.println(transactionDataFetcher.getAllSolvedIssueMessages());
         System.out.println("-------------------------------------------------------------------------");
         System.out.println("The 3 transactions with highest amount sorted by amount descending");
