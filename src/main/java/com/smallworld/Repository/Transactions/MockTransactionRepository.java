@@ -22,15 +22,12 @@ public class MockTransactionRepository implements ITransactionRepository {
         return  new ArrayList<>(
                 Arrays.asList(
                         new TransactionEntity(663458, 430.2, "Tom Shelby", 22, "Alfie Solomons", 33, 1, false, "Looks like money laundering"),
-                        new TransactionEntity(1284564, 150.2, "Tom Shelby", 22, "Arthur Shelby", 60, 2, true, "Never gonna give you up")
+                        new TransactionEntity(1284564, 450.2, "Tom Shelby", 22, "Arthur Shelby", 60, 2, true, "Never gonna give you up")
                 )
         );
     }
 
-    @Override
-    public int getUniqueSenderAndBeneficiaryClients() {
-        return 4;
-    }
+
 
     @Override
     public boolean hasOpenComplianceIssues(String clientFullName) {
@@ -59,13 +56,8 @@ public class MockTransactionRepository implements ITransactionRepository {
     public List<String> getAllSolvedIssueMessages() {
         String[] messages = {
                 "Never gonna give you up",
-                null,
                 "Never gonna let you down",
-                null,
                 "Never gonna run around and desert you",
-                null,
-                null,
-                null
         };
 
         return  Arrays.asList(messages);
@@ -88,16 +80,10 @@ public class MockTransactionRepository implements ITransactionRepository {
         Map<String, List<TransactionEntity>> getTransactionsBySenderFullName = new HashMap<>();
         getTransactionsBySenderFullName.put("Tom Shelby",  Arrays.asList(
                 new TransactionEntity(663458, 430.2, "Tom Shelby", 22, "Arthur Shelby", 33, 1, false, "Looks like money laundering"),
-                new TransactionEntity(1284564, 150.2, "Tom Shelby", 22, "Arthur Shelby", 60, 2, true, "Never gonna give you up")
+                new TransactionEntity(1284564, 150.2, "Tom Shelby", 22, "Arthur Shelby", 60, 2, true, "Never gonna give you up"),
+        new TransactionEntity(5465465, 20000, "Arthur Shelby", 60, "Ben Younger", 47, 15, false, "Something's fishy")
         ));
         return getTransactionsBySenderFullName;
     }
 
-    @Override
-    public Map<String, Double> getTopSender() {
-        Map<String, Double> topSender = new HashMap<>();
-        topSender.put("Arthur Shelby", 985.0);
-        return topSender;
-
-    }
 }
