@@ -44,7 +44,7 @@ public class TransactionDataFetcher {
        return this.getTotalAmount(this.transactionRepository.getTotalTransactionAmountSentBy(senderFullName));
     }
 
-    
+
     public double getMaximumAmount(List<TransactionEntity>totalUniqueTransactions){
         if(totalUniqueTransactions == null){
             throw new IllegalArgumentException("List cannot be null");
