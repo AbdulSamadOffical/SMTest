@@ -153,6 +153,9 @@ public class TransactionDataFetcherTest {
             assertTrue(messages.contains(message));
         }
     }
+    /**
+     * getTop3TransactionsByAmount must not yield null
+     */
     @Test
     public void getTop3TransactionsByAmount(){
         List<TransactionEntity> transactions = this.transactionDataFetcher.getTop3TransactionsByAmount();
